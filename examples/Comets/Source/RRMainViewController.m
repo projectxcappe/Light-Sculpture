@@ -152,40 +152,20 @@ INIT_LOG_LEVEL_INFO
 
 - (void)beaconManager:(id)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
 {
-    
+
     for (int i=0; i<[beacons count]; i++) {
-//
-//        BubbleObject *bubbleObject = [BubbleObject new];
-//
-//        CLBeacon *beacon = [beacons objectAtIndex:i];
-//
-//        for (CLBeacon *beacon in beacons)
-//        {
-//            //if dictionary doesn't contain the found beacon add it.
-//            //otherwise just update the beacon
-//                [self.beaconDict setObject:beacon forKey:beacon.major];
-//        }
-//
-//        NSLog(@"beacon %@", [self.beaconDict description]);
-//    }
-    
-    NSMutableDictionary *beaconsForComets = [NSMutableDictionary new];
-        for (int i=0; i<[beacons count]; i++) {
-    
+
+        
             for (CLBeacon *beacon in beacons)
             {
-                //if dictionary doesn't contain the found beacon add it.
-                //otherwise just update the beacon
+                NSMutableDictionary *beaconsForComets = [NSMutableDictionary new];
                 [beaconsForComets setObject:beacon forKey:beacon.major];
+                [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]];
+                
             }
-    
-            [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]]; //this will be the strip number
-    //        NSLog(@"beacon %@ %@", [self.beaconDict description], [self.beaconsArray description]);
-//            NSLog(@"%@", [self.beaconDict description]);
-        }
     }
     
-    
+    NSLog(@"%@", [self.beaconDict description]);
 }
 
 
