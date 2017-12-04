@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <EstimoteSDK/EstimoteSDK.h>
 
 @class PPPixel, PPStrip;
 
@@ -20,6 +21,8 @@
 @property (nonatomic, readonly) float headPosition;
 @property (nonatomic, readonly) float tailPosition;
 @property (nonatomic, strong) PPPixel *color;
+
+@property CLBeacon *beacon;                                             
 
 - (BOOL)drawInStrip:(PPStrip*)strip;
 

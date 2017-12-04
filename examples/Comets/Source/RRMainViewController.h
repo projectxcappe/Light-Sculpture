@@ -19,5 +19,12 @@ typedef enum : int
 
 @property (nonatomic, copy)     void (^completion)(CLBeacon *);
 @property (nonatomic, assign)   ESTScanType scanType;
+@property (nonatomic, strong) CLBeaconRegion *region;
+@property (nonatomic, strong) ESTBeaconManager *beaconManager;
+@property (nonatomic, strong) ESTUtilityManager *utilityManager;
+@property (nonatomic, strong) NSMutableArray *beaconsArray;
+@property NSMutableDictionary *beaconsDictionary;
+
+- (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(id))completion;
 
 @end

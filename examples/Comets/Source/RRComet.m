@@ -25,7 +25,7 @@
 		else				self.startPosition = 240;
 		self.speedVariance = 0.2;
 		self.speedVariancePeriod = (random()%400)/10.0;
-		self.color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
+        self.color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
     }
     return self;
 }
@@ -45,12 +45,11 @@
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
-//    float head = self.headPosition;
-//    float tail = self.tailPosition;
-    float head = 5;
-    float tail = 1;
+    float head = self.headPosition;
+    float tail = self.tailPosition;
+
 	if (head < 0 && tail < 0) return NO;
-	int pixcount = strip.pixels.count;
+	int pixcount = strip.pixels.count; //should be 72
 	if (head > pixcount && tail > pixcount) return NO;
 	
 	int start, end, lead;
@@ -69,11 +68,11 @@
 	for (int i=start; i<=end; i++) {
 		float lum = ((float)i - tail)/range;
 		PPPixel *pix = strip.pixels[i];
-		[pix addPixel:[self.color pixelScalingLuminance:lum]];
+        [pix addPixel:[self.color pixelScalingLuminance:lum]];
 	}
 	if (lead >= 0 && lead < pixcount) {
 		PPPixel *pix = strip.pixels[lead];
-		[pix addPixel:[self.color pixelScalingLuminance:leadfrac]];
+        [pix addPixel:[self.color pixelScalingLuminance:leadfrac]];
 	}
 	return YES;
 }

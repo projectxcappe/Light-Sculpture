@@ -17,13 +17,25 @@
 
 INIT_LOG_LEVEL_INFO
 
-@interface RRMainViewController () <PPFrameDelegate, UIGestureRecognizerDelegate>
+@interface RRMainViewController () <PPFrameDelegate, UIGestureRecognizerDelegate, ESTBeaconManagerDelegate, ESTUtilityManagerDelegate> //etimote delegates added
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 @property (nonatomic, strong) NSMutableArray *comets;
 @property (nonatomic, assign) uint32_t numStrips;
 @end
 
+
 @implementation RRMainViewController
+
+- (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(id))completion
+{
+    self = [super init];
+    if (self)
+    {
+        self.scanType = scanType;
+        self.completion = [completion copy];
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
@@ -42,6 +54,18 @@ INIT_LOG_LEVEL_INFO
 	for (int i=0; i<self.numStrips; i++) {
 		[self.comets addObject:NSMutableArray.array];
 	}
+    
+    UIViewController *demoViewController = [[RRMainViewController alloc] initWithScanType:ESTScanTypeBeacon
+                                                                           completion:^(CLBeacon *beacon) {
+                                                                               
+                                                                           }];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    //estimote
+    self.region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
+                                                     identifier:@"EstimoteSampleRegion"];
+    [self startRangingBeacons];
 }
 
 - (void)viewDidUnload {
@@ -50,10 +74,123 @@ INIT_LOG_LEVEL_INFO
 	[super viewDidUnload];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    //estimote
+    [self.beaconManager stopRangingBeaconsInRegion:self.region];
+    [self.utilityManager stopEstimoteBeaconDiscovery];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Estimote Methods
+
+- (void)beaconManager:(id)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
+{
+    UIAlertView* errorView = [[UIAlertView alloc] initWithTitle:@"Ranging error"
+                                                        message:error.localizedDescription
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    
+    [errorView show];
+}
+
+- (void)beaconManager:(id)manager monitoringDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
+{
+    UIAlertView* errorView = [[UIAlertView alloc] initWithTitle:@"Monitoring error"
+                                                        message:error.localizedDescription
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    
+    [errorView show];
+}
+
+- (void)beaconManager:(id)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region
+{
+    
+    for (int i=0; i<[beacons count]; i++) {
+//
+//        BubbleObject *bubbleObject = [BubbleObject new];
+//
+        CLBeacon *beacon = [beacons objectAtIndex:i];
+        NSLog(@"beacon %@", beacon);
+//        //if dictionary doesn't contain the found beacon add it.
+//        //otherwise just update the beacon
+//        if (!self.beaconDict[beacon.major]) {
+//
+//            [bubbleObject setBeacon:beacon];
+//            [bubbleObject setUuid:[beacon.major stringValue]];
+//
+//            //add color but remove it from the list
+//            NSLog(@"Colors %@", [self.colors lastObject]);
+//            [bubbleObject setColor:[self.colors lastObject]];
+//            [self.colors removeObject:[self.colors lastObject]];
+//
+//            [bubbleObject setPosition:[self.beaconDict count]+1];
+//
+//            //add beacon to dict
+//            [self.beaconDict setObject:bubbleObject forKey:beacon.major];
+//
+//        }else{
+//            bubbleObject = [self.beaconDict objectForKey:beacon.major];
+//            [bubbleObject setBeacon:beacon];
+//            [self.beaconDict setObject:bubbleObject forKey:beacon.major];
+//        }
+//
+//        NSLog(@"Beacons %@", [self.beaconDict description]);
+    }
+    
+    [self updateBeacons];
+}
+
+- (void)updateBeacons {
+    
+}
+
+- (void)utilityManager:(ESTUtilityManager *)manager didDiscoverBeacons:(NSArray *)beacons
+{
+    
+}
+
+-(void)startRangingBeacons
+{
+    if ([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
+    {
+        [self.beaconManager requestAlwaysAuthorization];
+        [self.beaconManager startRangingBeaconsInRegion:self.region];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+    {
+        [self.beaconManager startRangingBeaconsInRegion:self.region];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusDenied)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Access Denied"
+                                                        message:@"You have denied access to location services. Change this in app settings."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        
+        [alert show];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Not Available"
+                                                        message:@"You have no access to location services."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        
+        [alert show];
+    }
 }
 
 #pragma mark - PPFrameDelegate
