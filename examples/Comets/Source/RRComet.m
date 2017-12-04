@@ -45,8 +45,10 @@
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
-	float head = self.headPosition;
-	float tail = self.tailPosition;
+//    float head = self.headPosition;
+//    float tail = self.tailPosition;
+    float head = 5;
+    float tail = 1;
 	if (head < 0 && tail < 0) return NO;
 	int pixcount = strip.pixels.count;
 	if (head > pixcount && tail > pixcount) return NO;

@@ -24,6 +24,12 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Advertisement would like to use bluetooth.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This is necessary to discover your beacons, and for the in-background Notification Demo.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This application uses your location to determine which table you're at when ordering your coffee</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -49,6 +55,12 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>App communicates using CoreBluetooth</string>
+		<string>App shares data using CoreBluetooth</string>
+		<string>App communicates with an accessory</string>
 	</array>
 </dict>
 </plist>

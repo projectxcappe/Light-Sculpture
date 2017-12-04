@@ -28,10 +28,15 @@ INIT_LOG_LEVEL_INFO
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //estimote
+    self.scanType = ESTScanTypeBeacon;
+    self.completion = [self.completion copy]; //why copy
 
 	PPDeviceRegistry.sharedRegistry.frameDelegate = self;
 	[PPDeviceRegistry.sharedRegistry startPushing];
 
+    //comet
 	self.numStrips = 8;
 	self.comets = NSMutableArray.array;
 	for (int i=0; i<self.numStrips; i++) {
