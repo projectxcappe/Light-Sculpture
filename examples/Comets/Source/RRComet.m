@@ -45,6 +45,9 @@
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
+    
+    NSLog(@"%@", self.beacon.major);
+    
     float head = self.headPosition;
     float tail = self.tailPosition;
 
