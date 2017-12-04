@@ -26,24 +26,9 @@ INIT_LOG_LEVEL_INFO
 
 @implementation RRMainViewController
 
-- (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(id))completion
-{
-    self = [super init];
-    if (self)
-    {
-        self.scanType = scanType;
-        self.completion = [completion copy];
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //estimote
-    self.scanType = ESTScanTypeBeacon;
-    self.completion = [self.completion copy]; //why copy
 
 	PPDeviceRegistry.sharedRegistry.frameDelegate = self;
 	[PPDeviceRegistry.sharedRegistry startPushing];
@@ -54,11 +39,19 @@ INIT_LOG_LEVEL_INFO
 	for (int i=0; i<self.numStrips; i++) {
 		[self.comets addObject:NSMutableArray.array];
 	}
+
+    //estimote
+    self.scanType = ESTScanTypeBeacon;
+    self.completion = [self.completion copy]; //why copy
     
-    UIViewController *demoViewController = [[RRMainViewController alloc] initWithScanType:ESTScanTypeBeacon
-                                                                           completion:^(CLBeacon *beacon) {
-                                                                               
-                                                                           }];
+    self.beaconManager = [[ESTBeaconManager alloc] init];
+    self.beaconManager.delegate = self;
+    
+    self.utilityManager = [[ESTUtilityManager alloc] init];
+    self.utilityManager.delegate = self;
+    
+    self.beaconDict = [NSMutableDictionary new];
+    self.beaconsArray = [NSMutableArray new];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -162,35 +155,35 @@ INIT_LOG_LEVEL_INFO
 
 -(void)startRangingBeacons
 {
-    if ([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
-    {
-        [self.beaconManager requestAlwaysAuthorization];
+//    if ([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
+//    {
+//        [self.beaconManager requestAlwaysAuthorization];
+//        [self.beaconManager startRangingBeaconsInRegion:self.region];
+//    }
+//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+//    {
         [self.beaconManager startRangingBeaconsInRegion:self.region];
-    }
-    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
-    {
-        [self.beaconManager startRangingBeaconsInRegion:self.region];
-    }
-    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusDenied)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Access Denied"
-                                                        message:@"You have denied access to location services. Change this in app settings."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        
-        [alert show];
-    }
-    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusRestricted)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Not Available"
-                                                        message:@"You have no access to location services."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles: nil];
-        
-        [alert show];
-    }
+//    }
+//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusDenied)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Access Denied"
+//                                                        message:@"You have denied access to location services. Change this in app settings."
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//
+//        [alert show];
+//    }
+//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Not Available"
+//                                                        message:@"You have no access to location services."
+//                                                       delegate:nil
+//                                              cancelButtonTitle:@"OK"
+//                                              otherButtonTitles: nil];
+//
+//        [alert show];
+//    }
 }
 
 #pragma mark - PPFrameDelegate

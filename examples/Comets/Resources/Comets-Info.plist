@@ -27,7 +27,7 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Advertisement would like to use bluetooth.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This is necessary to discover your beacons, and for the in-background Notification Demo.</string>
+	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application uses your location to determine which table you're at when ordering your coffee</string>
 	<key>UIFileSharingEnabled</key>

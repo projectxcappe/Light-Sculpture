@@ -17,6 +17,10 @@ typedef enum : int
 
 @interface RRMainViewController : UIViewController
 
+@property NSMutableDictionary *beaconDict;
+@property NSMutableArray *colors;
+@property CLBeacon *beacon;
+
 @property (nonatomic, copy)     void (^completion)(CLBeacon *);
 @property (nonatomic, assign)   ESTScanType scanType;
 @property (nonatomic, strong) CLBeaconRegion *region;
@@ -25,6 +29,5 @@ typedef enum : int
 @property (nonatomic, strong) NSMutableArray *beaconsArray;
 @property NSMutableDictionary *beaconsDictionary;
 
-- (id)initWithScanType:(ESTScanType)scanType completion:(void (^)(id))completion;
 
 @end

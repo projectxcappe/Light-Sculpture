@@ -41,6 +41,10 @@
     //    NSLog(@"ESTAppDelegate: APP ID and APP TOKEN are required to connect to your beacons and make Estimote API calls.");
     [ESTConfig setupAppID:@"metro-app-l49" andAppToken:@"8c2ccced36eb0661899e3ecc0866d23e"];
     
+    [ESTConfig enableMonitoringAnalytics:NO];
+    [ESTConfig enableRangingAnalytics:NO];
+    [ESTConfig enableGPSPositioningForAnalytics:NO];
+    
     // Register for remote notificatons related to Estimote Remote Beacon Management.
     if (IS_OS_8_OR_LATER)
     {
