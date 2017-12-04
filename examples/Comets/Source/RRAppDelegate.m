@@ -10,6 +10,7 @@
 #import "DDTTYLogger.h"
 #import "RRAppDelegate.h"
 #import "RRMainViewController.h"
+#import "Examples-Prefix.pch"
 
 @implementation RRAppDelegate
 
@@ -34,6 +35,54 @@
     [self.window makeKeyAndVisible];
 	UIApplication.sharedApplication.idleTimerDisabled = YES;
     return YES;
+    
+    //estimote
+    
+    //    NSLog(@"ESTAppDelegate: APP ID and APP TOKEN are required to connect to your beacons and make Estimote API calls.");
+    [ESTConfig setupAppID:@"metro-app-l49" andAppToken:@"8c2ccced36eb0661899e3ecc0866d23e"];
+    
+    // Register for remote notificatons related to Estimote Remote Beacon Management.
+    if (IS_OS_8_OR_LATER)
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeNone);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                                 categories:nil];
+        
+        [application registerUserNotificationSettings:settings];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+}
+
+//estimote
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // After device is registered in iOS to receive Push Notifications,
+    // device token has to be sent to Estimote Cloud.
+    
+    ESTRequestRegisterDevice *request = [[ESTRequestRegisterDevice alloc] initWithDeviceToken:deviceToken];
+    [request sendRequestWithCompletion:^(NSError *error) {
+        
+    }];
+}
+
+//estimote
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    // Verify if push is comming from Estimote Cloud and is related
+    // to remote beacon management
+    if ([ESTBulkUpdater verifyPushNotificationPayload:userInfo])
+    {
+        // pending settings are fetched and performed automatically
+        // after startWithCloudSettingsAndTimeout: method call
+        [[ESTBulkUpdater sharedInstance] startWithCloudSettingsAndTimeout:60 * 60];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
