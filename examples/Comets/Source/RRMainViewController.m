@@ -165,8 +165,7 @@ INIT_LOG_LEVEL_INFO
         
     }
     
-//    [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]];
-    NSLog(@"%@", [self.beaconDict description]);
+//    NSLog(@"%@", [self.beaconDict description]);
 }
 
 
@@ -188,8 +187,12 @@ INIT_LOG_LEVEL_INFO
 				pix.red = pix.green = pix.blue = 0;
 			}
 			NSMutableArray *stripComets = self.comets[s];
-			while (stripComets.count < 10) {
+			while (stripComets.count < 3) {
 				RRComet *comet = RRComet.alloc.init;
+                
+                //pairing an estimote with a strip
+                CLBeacon* beacon = [self.beaconDict objectForKey:[NSString stringWithFormat:@"%d", s]];
+                [comet setBeacon:beacon];
 				[stripComets addObject:comet];
 			}
 			[stripComets.copy forEach:^(RRComet *comet, NSUInteger idx, BOOL *stop) {
