@@ -27,7 +27,7 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Advertisement would like to use bluetooth.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>This application monitors your location to show you promotional offers in shops you're passing by</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This application uses your location to determine which table you're at when ordering your coffee</string>
 	<key>UIFileSharingEnabled</key>

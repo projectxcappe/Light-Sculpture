@@ -61,6 +61,15 @@ INIT_LOG_LEVEL_INFO
                                                      identifier:@"EstimoteSampleRegion"];
     
     [self.beaconManager startRangingBeaconsInRegion:self.region];
+    
+    if (self.scanType == ESTScanTypeBeacon)
+    {
+        [self startRangingBeacons];
+    }
+    else
+    {
+        [self.utilityManager startEstimoteBeaconDiscovery];
+    }
 }
 
 - (void)viewDidUnload {
@@ -85,6 +94,39 @@ INIT_LOG_LEVEL_INFO
 }
 
 #pragma mark - Estimote Methods
+
+-(void)startRangingBeacons
+{
+    if ([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
+    {
+        [self.beaconManager requestAlwaysAuthorization];
+        [self.beaconManager startRangingBeaconsInRegion:self.region];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
+    {
+        [self.beaconManager startRangingBeaconsInRegion:self.region];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusDenied)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Access Denied"
+                                                        message:@"You have denied access to location services. Change this in app settings."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        
+        [alert show];
+    }
+    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Not Available"
+                                                        message:@"You have no access to location services."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+        
+        [alert show];
+    }
+}
 
 - (void)beaconManager:(id)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error
 {
@@ -115,17 +157,34 @@ INIT_LOG_LEVEL_INFO
 //
 //        BubbleObject *bubbleObject = [BubbleObject new];
 //
-        CLBeacon *beacon = [beacons objectAtIndex:i];
-        
-        for (CLBeacon *beacon in beacons)
-        {
-            //if dictionary doesn't contain the found beacon add it.
-            //otherwise just update the beacon
-                [self.beaconDict setObject:beacon forKey:beacon.major];
+//        CLBeacon *beacon = [beacons objectAtIndex:i];
+//
+//        for (CLBeacon *beacon in beacons)
+//        {
+//            //if dictionary doesn't contain the found beacon add it.
+//            //otherwise just update the beacon
+//                [self.beaconDict setObject:beacon forKey:beacon.major];
+//        }
+//
+//        NSLog(@"beacon %@", [self.beaconDict description]);
+//    }
+    
+    NSMutableDictionary *beaconsForComets = [NSMutableDictionary new];
+        for (int i=0; i<[beacons count]; i++) {
+    
+            for (CLBeacon *beacon in beacons)
+            {
+                //if dictionary doesn't contain the found beacon add it.
+                //otherwise just update the beacon
+                [beaconsForComets setObject:beacon forKey:beacon.major];
+            }
+    
+            [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]]; //this will be the strip number
+    //        NSLog(@"beacon %@ %@", [self.beaconDict description], [self.beaconsArray description]);
+//            NSLog(@"%@", [self.beaconDict description]);
         }
-
-        NSLog(@"beacon %@", [self.beaconDict description]);
     }
+    
     
 }
 
