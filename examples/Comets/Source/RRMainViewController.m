@@ -154,17 +154,18 @@ INIT_LOG_LEVEL_INFO
 {
 
     for (int i=0; i<[beacons count]; i++) {
-
+        CLBeacon *beacon = [beacons objectAtIndex:i];
         
-            for (CLBeacon *beacon in beacons)
-            {
-                NSMutableDictionary *beaconsForComets = [NSMutableDictionary new];
-                [beaconsForComets setObject:beacon forKey:beacon.major];
-                [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]];
-                
-            }
+        //set beacon to dict or update it if it exists
+        if ([self.beaconDict objectForKey:[NSString stringWithFormat:@"%d", i]]) {
+//            NSLog(@"exists");
+        }else{
+             [self.beaconDict setObject:beacon forKey:[NSString stringWithFormat:@"%d", i]];
+        }
+        
     }
     
+//    [self.beaconDict setObject:beaconsForComets forKey:[NSString stringWithFormat:@"%i",i]];
     NSLog(@"%@", [self.beaconDict description]);
 }
 
