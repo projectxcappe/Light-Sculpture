@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		805726719F2E42A837035D68 /* libPods-Comets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1706DE6ADFD5F1ED09EEE7E1 /* libPods-Comets.a */; };
-		8911B3B51FD4EBB8007077A5 /* Estimote Classes in Resources */ = {isa = PBXBuildFile; fileRef = 8911B3B41FD4EBB8007077A5 /* Estimote Classes */; };
+		8911B3CA1FD4FEB8007077A5 /* BubbleObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8911B3C81FD4FEB8007077A5 /* BubbleObject.m */; };
 		892C482C1FD4DB72004D26DB /* EstimoteSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892C482B1FD4DB72004D26DB /* EstimoteSDK.framework */; };
 		B9610332F256615421A16452 /* libPods-PixelPusherTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA5BB933385BFD7B2E4F4A0 /* libPods-PixelPusherTests.a */; };
 		DB01CF76174C1A2200486F6C /* RRMainViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB01CF73174C1A2200486F6C /* RRMainViewController_iPad.xib */; };
@@ -54,8 +54,9 @@
 		29EB324018C9280D55A2F4F3 /* Pods-Comets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comets.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Comets/Pods-Comets.debug.xcconfig"; sourceTree = "<group>"; };
 		4C9BC4C340820182F0A5E27C /* Pods-PixelPusherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelPusherTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PixelPusherTests/Pods-PixelPusherTests.release.xcconfig"; sourceTree = "<group>"; };
 		8710C92F205860A6A848E81E /* Pods-Comets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Comets.release.xcconfig"; path = "Pods/Target Support Files/Pods-Comets/Pods-Comets.release.xcconfig"; sourceTree = "<group>"; };
-		8911B3B41FD4EBB8007077A5 /* Estimote Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Estimote Classes"; sourceTree = "<group>"; };
 		8911B3B61FD4ED61007077A5 /* Examples-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Examples-Prefix.pch"; sourceTree = "<group>"; };
+		8911B3C71FD4FEB8007077A5 /* BubbleObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleObject.h; sourceTree = "<group>"; };
+		8911B3C81FD4FEB8007077A5 /* BubbleObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleObject.m; sourceTree = "<group>"; };
 		892C482B1FD4DB72004D26DB /* EstimoteSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EstimoteSDK.framework; path = "iOS-SDK/EstimoteSDK/EstimoteSDK.framework"; sourceTree = "<group>"; };
 		9FA5BB933385BFD7B2E4F4A0 /* libPods-PixelPusherTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PixelPusherTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B656AE7E8C45ADEBD10FBB58 /* Pods-PixelPusherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PixelPusherTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PixelPusherTests/Pods-PixelPusherTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -203,9 +204,10 @@
 				DBC1CDAC174B4D9500CCAF52 /* RRAppDelegate.m */,
 				DBC1CDAF174B4D9500CCAF52 /* RRMainViewController.h */,
 				DBC1CDB0174B4D9500CCAF52 /* RRMainViewController.m */,
+				8911B3C71FD4FEB8007077A5 /* BubbleObject.h */,
+				8911B3C81FD4FEB8007077A5 /* BubbleObject.m */,
 				DB01CF73174C1A2200486F6C /* RRMainViewController_iPad.xib */,
 				DB01CF74174C1A2200486F6C /* RRMainViewController_iPhone.xib */,
-				8911B3B41FD4EBB8007077A5 /* Estimote Classes */,
 			);
 			path = Source;
 			sourceTree = SOURCE_ROOT;
@@ -316,7 +318,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8911B3B51FD4EBB8007077A5 /* Estimote Classes in Resources */,
 				DBC1CDA0174B4D8B00CCAF52 /* Default-568h@2x.png in Resources */,
 				DBC1CDA1174B4D8B00CCAF52 /* Default.png in Resources */,
 				DBC1CDA2174B4D8B00CCAF52 /* Default@2x.png in Resources */,
@@ -441,6 +442,7 @@
 				DBC1CDB2174B4D9500CCAF52 /* RRAppDelegate.m in Sources */,
 				DBC1CDB4174B4D9500CCAF52 /* RRMainViewController.m in Sources */,
 				DB3E2B4A18134A9E0034BFC8 /* RRComet.m in Sources */,
+				8911B3CA1FD4FEB8007077A5 /* BubbleObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

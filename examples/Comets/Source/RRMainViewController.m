@@ -14,6 +14,7 @@
 #import "RRComet.h"
 #import "RRForEach.h"
 #import "RRMainViewController.h"
+#import "BubbleObject.h"
 
 INIT_LOG_LEVEL_INFO
 
@@ -58,7 +59,8 @@ INIT_LOG_LEVEL_INFO
     //estimote
     self.region = [[CLBeaconRegion alloc] initWithProximityUUID:ESTIMOTE_PROXIMITY_UUID
                                                      identifier:@"EstimoteSampleRegion"];
-    [self startRangingBeacons];
+    
+    [self.beaconManager startRangingBeaconsInRegion:self.region];
 }
 
 - (void)viewDidUnload {
@@ -114,77 +116,25 @@ INIT_LOG_LEVEL_INFO
 //        BubbleObject *bubbleObject = [BubbleObject new];
 //
         CLBeacon *beacon = [beacons objectAtIndex:i];
-        NSLog(@"beacon %@", beacon);
-//        //if dictionary doesn't contain the found beacon add it.
-//        //otherwise just update the beacon
-//        if (!self.beaconDict[beacon.major]) {
-//
-//            [bubbleObject setBeacon:beacon];
-//            [bubbleObject setUuid:[beacon.major stringValue]];
-//
-//            //add color but remove it from the list
-//            NSLog(@"Colors %@", [self.colors lastObject]);
-//            [bubbleObject setColor:[self.colors lastObject]];
-//            [self.colors removeObject:[self.colors lastObject]];
-//
-//            [bubbleObject setPosition:[self.beaconDict count]+1];
-//
-//            //add beacon to dict
-//            [self.beaconDict setObject:bubbleObject forKey:beacon.major];
-//
-//        }else{
-//            bubbleObject = [self.beaconDict objectForKey:beacon.major];
-//            [bubbleObject setBeacon:beacon];
-//            [self.beaconDict setObject:bubbleObject forKey:beacon.major];
-//        }
-//
-//        NSLog(@"Beacons %@", [self.beaconDict description]);
+        
+        for (CLBeacon *beacon in beacons)
+        {
+            //if dictionary doesn't contain the found beacon add it.
+            //otherwise just update the beacon
+                [self.beaconDict setObject:beacon forKey:beacon.major];
+        }
+
+        NSLog(@"beacon %@", [self.beaconDict description]);
     }
     
-    [self updateBeacons];
 }
 
-- (void)updateBeacons {
-    
-}
 
 - (void)utilityManager:(ESTUtilityManager *)manager didDiscoverBeacons:(NSArray *)beacons
 {
     
 }
 
--(void)startRangingBeacons
-{
-//    if ([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)
-//    {
-//        [self.beaconManager requestAlwaysAuthorization];
-//        [self.beaconManager startRangingBeaconsInRegion:self.region];
-//    }
-//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)
-//    {
-        [self.beaconManager startRangingBeaconsInRegion:self.region];
-//    }
-//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusDenied)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Access Denied"
-//                                                        message:@"You have denied access to location services. Change this in app settings."
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles: nil];
-//
-//        [alert show];
-//    }
-//    else if([ESTBeaconManager authorizationStatus] == kCLAuthorizationStatusRestricted)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Location Not Available"
-//                                                        message:@"You have no access to location services."
-//                                                       delegate:nil
-//                                              cancelButtonTitle:@"OK"
-//                                              otherButtonTitles: nil];
-//
-//        [alert show];
-//    }
-}
 
 #pragma mark - PPFrameDelegate
 

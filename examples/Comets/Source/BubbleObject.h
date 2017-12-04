@@ -8,11 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <EstimoteSDK/EstimoteSDK.h>
-#import "Bubble.h"
 
 @interface BubbleObject : NSObject
 
-@property Bubble *bubble;
 @property NSString *uuid;
 @property UIColor *color;
 @property CLBeacon *beacon;

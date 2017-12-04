@@ -18,7 +18,7 @@ typedef enum : int
 @interface RRMainViewController : UIViewController
 
 @property NSMutableDictionary *beaconDict;
-@property NSMutableArray *colors;
+@property (nonatomic, strong) NSMutableArray *beaconsArray;
 @property CLBeacon *beacon;
 
 @property (nonatomic, copy)     void (^completion)(CLBeacon *);
@@ -26,7 +26,6 @@ typedef enum : int
 @property (nonatomic, strong) CLBeaconRegion *region;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) ESTUtilityManager *utilityManager;
-@property (nonatomic, strong) NSMutableArray *beaconsArray;
 @property NSMutableDictionary *beaconsDictionary;
 
 

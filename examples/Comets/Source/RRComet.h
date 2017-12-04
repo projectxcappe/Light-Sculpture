@@ -23,6 +23,7 @@
 @property (nonatomic, strong) PPPixel *color;
 
 @property CLBeacon *beacon;                                             
+@property NSString *beacon_major;
 
 - (BOOL)drawInStrip:(PPStrip*)strip;
 
