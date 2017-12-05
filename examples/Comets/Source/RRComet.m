@@ -33,20 +33,25 @@
 
 - (float)headPosition {
 	CFTimeInterval now = CACurrentMediaTime();
-    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
+    float speedNow1 = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance*fabs(self.distance*50));
+    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance*fabs(self.distance*100)) + fabs(self.distance*100);
+    if (self.distance > 0) {
+        NSLog(@"speedNow1 %f newspeedNow %f self.speedVariance %f", speedNow1, speedNow, self.speedVariance*fabs(self.distance*50));
+    }
+
 	double interval = now - self.startTime;
-	return self.startPosition + speedNow*interval;
+	return self.startPosition + speedNow1*interval;
 }
 
 - (float)tailPosition {
 	CFTimeInterval now = CACurrentMediaTime();
-    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
+    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance)+(fabs(self.distance*10));
 	double interval = now - self.startTime - self.tailLength;
 	return self.startPosition + speedNow*interval;
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
-    NSLog(@"dis %f", self.distance);
+
     float head = self.headPosition;
     float tail = self.tailPosition;
 
