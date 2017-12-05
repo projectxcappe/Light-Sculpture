@@ -53,6 +53,7 @@ INIT_LOG_LEVEL_INFO
     
     self.beaconDict = [NSMutableDictionary new];
     self.beaconsArray = [NSMutableArray new];
+    self.colorDictionary = [NSMutableDictionary new];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -155,17 +156,18 @@ INIT_LOG_LEVEL_INFO
 
     for (int i=0; i<[beacons count]; i++) {
         CLBeacon *beacon = [beacons objectAtIndex:i];
-        
+        PPPixel *color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
         //set beacon to dict or update it if it exists
         if ([self.beaconDict objectForKey:[NSString stringWithFormat:@"%d", i]]) {
 //            NSLog(@"exists");
         }else{
-             [self.beaconDict setObject:beacon forKey:[NSString stringWithFormat:@"%d", i]];
+            [self.colorDictionary setObject:color forKey:[NSString stringWithFormat:@"%d", i]];
+            [self.beaconDict setObject:beacon forKey:[NSString stringWithFormat:@"%d", i]];
         }
         
     }
-    
-//    NSLog(@"%@", [self.beaconDict description]);
+
+    NSLog(@"%@", [self.beaconDict description]);
 }
 
 
@@ -192,7 +194,11 @@ INIT_LOG_LEVEL_INFO
                 
                 //pairing an estimote with a strip
                 CLBeacon* beacon = [self.beaconDict objectForKey:[NSString stringWithFormat:@"%d", s]];
+                PPPixel *color = [self.colorDictionary objectForKey:[NSString stringWithFormat:@"%d", s]];
                 [comet setBeacon:beacon];
+                [comet setColor:color];
+
+                NSLog(@"%@, %@", comet.beacon.major, comet.color);
 				[stripComets addObject:comet];
 			}
 			[stripComets.copy forEach:^(RRComet *comet, NSUInteger idx, BOOL *stop) {

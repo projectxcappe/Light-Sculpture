@@ -17,42 +17,51 @@
     self = [super init];
     if (self) {
 		self.startTime = CACurrentMediaTime();
-		self.tailLength = (random()%20)/10.0+1;
+        self.tailLength = (random()%20)/10.0+1;
 		while (fabsf(self.speed) < 4) {
 			self.speed = (random()%600-300)/10.0;
 		}
 		if (self.speed > 0)	self.startPosition = 0;
 		else				self.startPosition = 240;
 		self.speedVariance = 0.2;
-		self.speedVariancePeriod = (random()%400)/10.0;
-        self.color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
+        self.speedVariancePeriod = (random()%400)/10.0;
+//        self.color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
     }
     return self;
 }
 
 - (float)headPosition {
 	CFTimeInterval now = CACurrentMediaTime();
-	float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
+    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
 	double interval = now - self.startTime;
 	return self.startPosition + speedNow*interval;
 }
 
 - (float)tailPosition {
 	CFTimeInterval now = CACurrentMediaTime();
-	float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
+    float speedNow = self.speed * (1 + sin(now/self.speedVariancePeriod*M_2_PI) * self.speedVariance);
 	double interval = now - self.startTime - self.tailLength;
 	return self.startPosition + speedNow*interval;
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
     
-    NSLog(@"%@", self.beacon.major);
-    
     float head = self.headPosition;
     float tail = self.tailPosition;
 
 	if (head < 0 && tail < 0) return NO;
-	int pixcount = strip.pixels.count; //should be 72
+        int pixcount = strip.pixels.count; //should be 72
+    
+//    NSLog(@" - %d", -self.beacon.rssi);
+//    if ((-self.beacon.rssi < strip.pixels.count)) {
+//         pixcount = -self.beacon.rssi;
+//        NSLog(@"1 - %d", pixcount);
+//    }else {
+//         pixcount = strip.pixels.count; //should be 72
+//        NSLog(@"2 - %d", pixcount);
+//
+//    }
+    
 	if (head > pixcount && tail > pixcount) return NO;
 	
 	int start, end, lead;
@@ -71,11 +80,17 @@
 	for (int i=start; i<=end; i++) {
 		float lum = ((float)i - tail)/range;
 		PPPixel *pix = strip.pixels[i];
-        [pix addPixel:[self.color pixelScalingLuminance:lum]];
+        
+        if(self.beacon){
+            [pix addPixel:[self.color pixelScalingLuminance:lum]];
+        }
+        
 	}
 	if (lead >= 0 && lead < pixcount) {
 		PPPixel *pix = strip.pixels[lead];
-        [pix addPixel:[self.color pixelScalingLuminance:leadfrac]];
+        if(self.beacon){
+            [pix addPixel:[self.color pixelScalingLuminance:leadfrac]];
+        }
 	}
 	return YES;
 }

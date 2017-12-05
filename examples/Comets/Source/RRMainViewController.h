@@ -26,7 +26,7 @@ typedef enum : int
 @property (nonatomic, strong) CLBeaconRegion *region;
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) ESTUtilityManager *utilityManager;
-@property NSMutableDictionary *beaconsDictionary;
+@property NSMutableDictionary *colorDictionary;
 
 
 @end
