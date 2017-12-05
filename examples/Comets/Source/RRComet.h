@@ -21,6 +21,7 @@
 @property (nonatomic, readonly) float headPosition;
 @property (nonatomic, readonly) float tailPosition;
 @property (nonatomic, strong) PPPixel *color;
+@property (nonatomic, assign) double distance;
 
 @property CLBeacon *beacon;                                             
 @property NSString *beacon_major;

@@ -25,6 +25,7 @@
 		else				self.startPosition = 240;
 		self.speedVariance = 0.2;
         self.speedVariancePeriod = (random()%400)/10.0;
+        
 //        self.color = [PPPixel pixelWithHue:(random()%200)/200.0 saturation:1 luminance:1];
     }
     return self;
@@ -45,7 +46,7 @@
 }
 
 - (BOOL)drawInStrip:(PPStrip*)strip {
-    
+    NSLog(@"dis %f", self.distance);
     float head = self.headPosition;
     float tail = self.tailPosition;
 

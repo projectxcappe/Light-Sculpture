@@ -27,6 +27,7 @@ typedef enum : int
 @property (nonatomic, strong) ESTBeaconManager *beaconManager;
 @property (nonatomic, strong) ESTUtilityManager *utilityManager;
 @property NSMutableDictionary *colorDictionary;
+@property NSMutableDictionary *distanceDictionary;
 
 
 @end
